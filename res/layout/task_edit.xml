@@ -16,44 +16,41 @@
             android:ems="10"
             android:id="@+id/editTaskDescription"/>
 
-    <LinearLayout
-            android:orientation="horizontal"
+    <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_gravity="left">
-
-        <Spinner
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:id="@+id/editTaskState"
-                android:spinnerMode="dropdown"
-                android:layout_weight="0.65"/>
-
-        <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Priorytetowy"
-                android:id="@+id/editPriority"
-                android:checked="false"
-                android:layout_gravity="left"/>
-    </LinearLayout>
+            android:id="@+id/editTaskState"
+            android:spinnerMode="dropdown"/>
 
     <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="340dp"
+            android:layout_width="fill_parent"
+            android:layout_height="301dp"
             android:id="@+id/editTaskDeadline"/>
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
+    <RelativeLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="OK"
-            android:id="@+id/editTaskOK"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:onClick="onClickOK"
-            android:layout_alignParentEnd="true"/>
+            android:layout_height="match_parent">
+
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="150dp"
+                android:layout_height="fill_parent"
+                android:text="Zmień"
+                android:id="@+id/editTaskOK"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"/>
+
+        <Button
+                android:layout_width="500dp"
+                android:layout_height="fill_parent"
+                android:text="Porzuć"
+                android:id="@+id/editTaskCancel"
+                android:layout_marginLeft="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

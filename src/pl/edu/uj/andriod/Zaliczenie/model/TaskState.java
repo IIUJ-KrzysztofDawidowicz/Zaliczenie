@@ -1,23 +1,31 @@
 package pl.edu.uj.andriod.Zaliczenie.model;
 
 public enum TaskState {
-    NEW("new", "czeka"), IN_PROGRESS("in progress", "w trakcie"), DONE("done", "zrobione");
+    NEW("new") {
+        @Override
+        public String toString() {
+            return "czeka";
+        }
+    }, IN_PROGRESS("in progress") {
+        @Override
+        public String toString() {
+            return "w trakcie";
+        }
+    }, DONE("done") {
+        @Override
+        public String toString() {
+            return "zrobione";
+        }
+    };
 
-    final String sqlName;
-    final String displayName;
+    String sqlName;
 
-    TaskState(String name, String displayName) {
+    TaskState(String name) {
         sqlName = name;
-        this.displayName = displayName;
     }
 
     public String getSqlName() {
         return sqlName;
-    }
-
-    @Override
-    public String toString() {
-        return displayName;
     }
 
     public static TaskState parse(String string) {
@@ -26,4 +34,5 @@ public enum TaskState {
                 return value;
         return null;
     }
+
 }

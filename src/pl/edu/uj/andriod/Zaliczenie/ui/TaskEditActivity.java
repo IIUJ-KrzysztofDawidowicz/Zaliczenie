@@ -13,27 +13,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.R.layout.simple_list_item_1;
+import static java.util.Calendar.*;
 import static pl.edu.uj.andriod.Zaliczenie.R.id.*;
 import static pl.edu.uj.andriod.Zaliczenie.R.layout.task_edit;
-import static pl.edu.uj.andriod.Zaliczenie.Util.getView;
 
 public class TaskEditActivity extends Activity {
     public static final String TASK_ID = "TASK_ID";
-    public static final String IS_NEW_TASK = "IS_NEW_TASK";
     private TaskDAO taskDAO;
     private EditText titleField;
     private EditText descriptionField;
     private Spinner stateField;
-    private CalendarView deadlineField;
-    private Date deadline = null;
-    private final Calendar calendar = Calendar.getInstance();
-    private Long taskId = null;
-    private EditType editType;
-    private CheckBox priority;
-
-    private enum EditType {
-        EDIT, CREATE
-    }
+    private DatePicker deadlineField;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,28 +37,14 @@ public class TaskEditActivity extends Activity {
 
     private void initFields() {
         taskDAO = new TaskDAO(this);
-        titleField = getView(this, editTaskTitle, EditText.class);
-        descriptionField = getView(this, editTaskDescription, EditText.class);
-        stateField = getView(this, editTaskState, Spinner.class);
-        deadlineField = getView(this, editTaskDeadline, CalendarView.class);
-        deadlineField.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                calendar.set(year, month, dayOfMonth);
-                deadline = calendar.getTime();
-            }
-        });
-        priority = getView(this, editPriority, CheckBox.class);
+        titleField = (EditText) findViewById(editTaskTitle);
+        descriptionField = (EditText) findViewById(editTaskDescription);
+        stateField = (Spinner) findViewById(editTaskState);
+        deadlineField = (DatePicker) findViewById(editTaskDeadline);
     }
 
     private void fillInData() {
-        if (getIntent().getBooleanExtra(IS_NEW_TASK, false)) {
-            editType = EditType.CREATE;
-            return;
-        }
-        editType = EditType.EDIT;
-        taskId = getIntent().getLongExtra(TASK_ID, -1);
-        Task task = taskDAO.getSingleTask(taskId);
+        Task task = taskDAO.getSingleTask(getIntent().getLongExtra(TASK_ID, -1));
         if (task == null) {
             Log.e("TaskEditActivity", "invalid task id");
             finish();
@@ -78,10 +54,9 @@ public class TaskEditActivity extends Activity {
         descriptionField.setText(task.getDescription());
         stateField.setSelection(task.getState().ordinal());
         if (task.getDeadline() != null) {
-            deadline = task.getDeadline();
-            deadlineField.setDate(deadline.getTime());
+            final Calendar calendar = task.getDeadlineCalendar();
+            deadlineField.updateDate(calendar.get(YEAR), calendar.get(MONTH), calendar.get(DAY_OF_MONTH));
         }
-        priority.setChecked(task.isPriority());
     }
 
     private void initSpinner() {
@@ -90,24 +65,8 @@ public class TaskEditActivity extends Activity {
     }
 
     public void onClickOK(View v) {
-        final Task data = collectDataFromFields();
-        switch (editType) {
-            case EDIT:
-                taskDAO.updateTask(data);
-                break;
-            case CREATE:
-                taskDAO.addTask(data);
-                break;
-        }
-        finish();
-    }
-
-    private Task collectDataFromFields() {
-        return new Task(text(titleField), text(descriptionField))
-                .setId(taskId)
-                .setState((TaskState) stateField.getSelectedItem())
-                .setDeadline(deadline)
-                .setPriority(priority.isChecked());
+        Task task = new Task(text(titleField), text(descriptionField))
+                .setState((TaskState) stateField.getSelectedItem());
     }
 
     private String text(EditText field) {

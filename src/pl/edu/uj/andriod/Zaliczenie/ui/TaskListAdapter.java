@@ -12,7 +12,7 @@ import java.util.List;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static pl.edu.uj.andriod.Zaliczenie.R.layout.task;
 
-final class TaskListAdapter extends ArrayAdapter<Task> {
+public final class TaskListAdapter extends ArrayAdapter<Task> {
     private final LayoutInflater inflater;
 
     public TaskListAdapter(Context context, List<Task> tasks) {

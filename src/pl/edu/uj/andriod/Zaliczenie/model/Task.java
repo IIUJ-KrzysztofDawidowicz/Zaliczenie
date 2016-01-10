@@ -1,5 +1,6 @@
 package pl.edu.uj.andriod.Zaliczenie.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,7 +13,6 @@ public final class Task {
     private final String title;
     private final String description;
     private TaskState state;
-    private boolean priority = false;
 
     // Optional fields
     private Long id; // optional for new tasks
@@ -29,7 +29,7 @@ public final class Task {
     }
 
     public Task setId(Long id) {
-        this.id = id;
+        this.id = requireNonNull(id);
         return this;
     }
 
@@ -90,12 +90,9 @@ public final class Task {
 
     }
 
-    public boolean isPriority() {
-        return priority;
-    }
-
-    public Task setPriority(boolean priority) {
-        this.priority = priority;
-        return this;
+    public Calendar getDeadlineCalendar() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(deadline);
+        return calendar;
     }
 }

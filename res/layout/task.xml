@@ -1,62 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <ToggleButton
-                android:layout_width="38dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/priorityButton"
-                android:src="@android:drawable/btn_star_big_off"
-                android:button="@android:drawable/btn_star_big_off"
-                android:textOn=""
-                android:textOff=""
-                />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/taskTitle"
-                android:textStyle="bold"/>
-
-        <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/statusButton"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/taskDescription"
-                />
-
-        <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Edytuj"
-                android:id="@+id/taskEditButton"
-                />
-    </LinearLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/taskTitle"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/taskDeadline"
-            />
+            android:id="@+id/taskDescription"
+            android:layout_below="@+id/taskTitle"
+            android:layout_alignParentStart="true"/>
 
-</LinearLayout>
+    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edytuj"
+            android:id="@+id/taskEditButton"
+            android:layout_below="@+id/statusButton"
+            android:layout_alignParentEnd="true"/>
+
+    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/statusButton"
+            android:layout_alignBottom="@+id/taskDescription"
+            android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>

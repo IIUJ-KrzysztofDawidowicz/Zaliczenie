@@ -8,7 +8,7 @@ import static pl.edu.uj.andriod.Zaliczenie.R.string.create_table;
 
 final class TaskSqlHelper extends SQLiteOpenHelper {
     private static final String database = "Tasks.db";
-    private static final int version = 2;
+    private static final int version = 1;
     private final Context context;
     
     public TaskSqlHelper(Context context) {

@@ -5,26 +5,30 @@ import android.database.sqlite.SQLiteOpenHelper;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.model.TaskState;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static pl.edu.uj.andriod.Zaliczenie.Util.dateFormat;
-import static pl.edu.uj.andriod.Zaliczenie.sql.Cursors.*;
-import static pl.edu.uj.andriod.Zaliczenie.sql.TaskTable.*;
-
 /**
  * Extracts Tasks from the database. Extracted from the DAO due to verbose code.
  */
-final class TaskQueryHelper {
+public class TaskQueryHelper {
+    private static final String TABLE = "tasks";
+    private static final int ID = 0;
+    private static final int TITLE = 1;
+    private static final int DESCRIPTION = 2;
+    private static final int DEADLINE = 3;
+    private static final int STATE = 4;
     private final SQLiteOpenHelper helper;
+    private final DateFormat dateFormat = DateFormat.getDateInstance();
 
     public TaskQueryHelper(SQLiteOpenHelper helper) {
         this.helper = helper;
     }
 
-    public List<Task> getTasks(String selection) {
+    List<Task> getTasks(String selection) {
         Cursor cursor = null;
         try {
             cursor = query(selection);
@@ -36,12 +40,12 @@ final class TaskQueryHelper {
         }
     }
 
-    private Cursor query(String selection) {
-        return helper.getReadableDatabase().query(TABLE_NAME, null, selection, null, null, null, null);
+    Cursor query(String selection) {
+        return helper.getReadableDatabase().query(TABLE, null, selection, null, null, null, null);
     }
 
-    private List<Task> convertTasks(Cursor cursor) {
-        List<Task> tasks = new ArrayList<>();
+    List<Task> convertTasks(Cursor cursor) {
+        List<Task> tasks = new ArrayList<Task>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             try {
@@ -54,20 +58,19 @@ final class TaskQueryHelper {
         return tasks;
     }
 
-    private Task task(Cursor cursor) throws ParseException {
-        return new Task(getString(cursor, TITLE), getString(cursor, DESCRIPTION))
-                .setId(getLong(cursor, ID))
+    Task task(Cursor cursor) throws ParseException {
+        return new Task(cursor.getString(TITLE), cursor.getString(DESCRIPTION))
+                .setId(cursor.getLong(ID))
                 .setDeadline(deadline(cursor))
-                .setState(state(cursor))
-                .setPriority(getBoolean(cursor, PRIORITY));
+                .setState(state(cursor));
     }
     
-    private TaskState state(Cursor cursor) {
-        return TaskState.parse(getString(cursor, STATE));
+    TaskState state(Cursor cursor) {
+        return TaskState.parse(cursor.getString(STATE));
     }
 
-    private Date deadline(Cursor cursor) throws ParseException {
-        final String date = getString(cursor, DEADLINE);
+    Date deadline(Cursor cursor) throws ParseException {
+        final String date = cursor.getString(DEADLINE);
         return date == null ? null : dateFormat.parse(date);
     }
 }
