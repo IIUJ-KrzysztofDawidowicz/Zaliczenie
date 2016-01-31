@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zaliczenie</string>
+    <string name="create_table">
+        create table tasks (
+            id integer primary key,
+            title text not null,
+            description text not null,
+            deadline text null,
+            priority int not null default 0,
+            state text not null check(state in (\'new\', \'in progress\', \'done\'))
+        )
+    </string>
+    
+    <string name="get_priority_count">
+        select count(*) from tasks
+        where priority = 1 and state != \'done\'
+    </string>
+    
+    <string name="preferences">Tasks.preferences</string>
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTaskTitle"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editTaskDescription"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_gravity="left">
+
+        <Spinner
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:id="@+id/editTaskState"
+                android:spinnerMode="dropdown"
+                android:layout_weight="0.65"/>
+
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Priorytetowy"
+                android:id="@+id/editPriority"
+                android:checked="false"
+                android:layout_gravity="left"/>
+    </LinearLayout>
+
+    <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            android:id="@+id/editTaskDeadline"/>
+
+    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/editTaskOK"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:onClick="onClickOK"
+            android:layout_alignParentEnd="true"/>
+
+</LinearLayout>
