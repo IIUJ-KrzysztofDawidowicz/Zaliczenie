@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.model.TaskState;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
 
+import static android.R.drawable.btn_star_big_off;
+import static android.R.drawable.btn_star_big_on;
 import static pl.edu.uj.andriod.Zaliczenie.R.id.*;
 import static pl.edu.uj.andriod.Zaliczenie.Util.dateFormat;
 import static pl.edu.uj.andriod.Zaliczenie.Util.getView;
@@ -20,6 +24,7 @@ final class TaskView {
     private final TextView deadline;
     private final Button edit;
     private final Button status;
+    private final ToggleButton priority;
 
     private Task task;
 
@@ -30,6 +35,7 @@ final class TaskView {
         deadline = getView(view, taskDeadline, TextView.class);
         edit = getView(view, taskEditButton, Button.class);
         status = getView(view, statusButton, Button.class);
+        priority = getView(view, priorityButton, ToggleButton.class);
 
         setOnClickListeners();
     }
@@ -43,6 +49,7 @@ final class TaskView {
         }
         status.setText(task.getState().toString());
         if (task.getState() == TaskState.DONE) status.setEnabled(false);
+        priority.setChecked(task.isPriority());
 
     }
 
@@ -52,25 +59,40 @@ final class TaskView {
         status.setText(task.getState().toString());
     }
 
-    private void launchEditWindow(View view) {
-        final Context context = view.getContext();
-        Intent intent = new Intent(context, TaskEditActivity.class);
-        intent.putExtra(TASK_ID, task.getId());
-        context.startActivity(intent);
+    private void setOnClickListeners() {
+        edit.setOnClickListener(new LaunchEditWindow());
+        status.setOnClickListener(new UpdateStatus());
+        priority.setOnCheckedChangeListener(new TogglePriority());
     }
 
-    private void setOnClickListeners() {
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchEditWindow(view);
+    private class LaunchEditWindow implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            final Context context = view.getContext();
+            Intent intent = new Intent(context, TaskEditActivity.class);
+            intent.putExtra(TASK_ID, task.getId());
+            context.startActivity(intent);
+        }
+    }
+
+    private class UpdateStatus implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            updateStatus(v);
+        }
+    }
+
+    private class TogglePriority implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            buttonView.setText("");
+            if (isChecked) {
+                buttonView.setButtonDrawable(btn_star_big_on);
+                task.setPriority(true);
+            } else {
+                buttonView.setButtonDrawable(btn_star_big_off);
+                task.setPriority(false);
             }
-        });
-        status.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateStatus(v);
-            }
-        });
+        }
     }
 }
