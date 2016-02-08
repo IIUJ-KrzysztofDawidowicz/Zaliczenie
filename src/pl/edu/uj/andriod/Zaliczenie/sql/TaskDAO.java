@@ -54,9 +54,9 @@ public final class TaskDAO {
         return this;
     }
     
-    public TaskDAO deleteTask(Task task){
-    	if (task.getId() == null) throw new IllegalStateException(String.format("%s missing id, cannot remove", task));
-    	helper.getWritableDatabase().delete(Contract.TABLE, "id = " + task.getId(), null);
+    public TaskDAO deleteTask(Long taskId){
+    	if (taskId == null) throw new IllegalStateException(String.format("%s missing id, cannot remove", taskId));
+    	helper.getWritableDatabase().delete(Contract.TABLE, "id = " + taskId, null);
     	return this;
     }
 

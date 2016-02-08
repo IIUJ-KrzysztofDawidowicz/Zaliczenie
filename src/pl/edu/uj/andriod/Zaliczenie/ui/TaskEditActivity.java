@@ -102,6 +102,11 @@ public class TaskEditActivity extends Activity {
         finish();
     }
 
+    public void onClickDelete(View v){
+        taskDAO.deleteTask(taskId);
+        finish();
+    }
+
     private Task collectDataFromFields() {
         return new Task(text(titleField), text(descriptionField))
                 .setId(taskId)
