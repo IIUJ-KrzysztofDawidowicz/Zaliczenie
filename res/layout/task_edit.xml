@@ -16,21 +16,38 @@
             android:ems="10"
             android:id="@+id/editTaskDescription"/>
 
-    <Spinner
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTaskState"
-            android:spinnerMode="dropdown"/>
+            android:weightSum="1"
+            android:layout_gravity="left">
+
+        <Spinner
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:id="@+id/editTaskState"
+                android:spinnerMode="dropdown"
+                android:layout_weight="0.65"/>
+
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Priorytetowy"
+                android:id="@+id/editPriority"
+                android:checked="false"
+                android:layout_gravity="left"/>
+    </LinearLayout>
 
     <CalendarView
             android:layout_width="match_parent"
-            android:layout_height="306dp"
+            android:layout_height="340dp"
             android:id="@+id/editTaskDeadline"/>
 
     <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="OK"
             android:id="@+id/editTaskOK"
             android:layout_marginLeft="0dp"

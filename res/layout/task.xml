@@ -10,6 +10,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.70"
         android:orientation="vertical" >
+        
+        <ToggleButton
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/priorityButton"
+                android:src="@android:drawable/btn_star_big_off"
+                android:button="@android:drawable/btn_star_big_off"
+                android:textOn=""
+                android:textOff=""
+                />
 
         <TextView
             android:id="@+id/taskTitle"

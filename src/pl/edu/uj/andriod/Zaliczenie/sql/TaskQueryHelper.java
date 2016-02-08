@@ -11,7 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import static pl.edu.uj.andriod.Zaliczenie.Util.dateFormat;
-import static pl.edu.uj.andriod.Zaliczenie.sql.Contract.*;
+import static pl.edu.uj.andriod.Zaliczenie.sql.Cursors.*;
+import static pl.edu.uj.andriod.Zaliczenie.sql.TaskTable.*;
 
 /**
  * Extracts Tasks from the database. Extracted from the DAO due to verbose code.
@@ -36,7 +37,7 @@ final class TaskQueryHelper {
     }
 
     private Cursor query(String selection) {
-        return helper.getReadableDatabase().query(TABLE, null, selection, null, null, null, null);
+        return helper.getReadableDatabase().query(TABLE_NAME, null, selection, null, null, null, null);
     }
 
     private List<Task> convertTasks(Cursor cursor) {
@@ -54,18 +55,19 @@ final class TaskQueryHelper {
     }
 
     private Task task(Cursor cursor) throws ParseException {
-        return new Task(cursor.getString(TITLE), cursor.getString(DESCRIPTION))
-                .setId(cursor.getLong(ID))
+        return new Task(getString(cursor, TITLE), getString(cursor, DESCRIPTION))
+                .setId(getLong(cursor, ID))
                 .setDeadline(deadline(cursor))
-                .setState(state(cursor));
+                .setState(state(cursor))
+                .setPriority(getBoolean(cursor, PRIORITY));
     }
     
     private TaskState state(Cursor cursor) {
-        return TaskState.parse(cursor.getString(STATE));
+        return TaskState.parse(getString(cursor, STATE));
     }
 
     private Date deadline(Cursor cursor) throws ParseException {
-        final String date = cursor.getString(DEADLINE);
+        final String date = getString(cursor, DEADLINE);
         return date == null ? null : dateFormat.parse(date);
     }
 }

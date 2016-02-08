@@ -12,6 +12,7 @@ public final class Task {
     private final String title;
     private final String description;
     private TaskState state;
+    private boolean priority = false;
 
     // Optional fields
     private Long id; // optional for new tasks
@@ -63,17 +64,17 @@ public final class Task {
         return String.format("%s%n%s%nStan: %s%nData: %tR", title, description, state, deadline);
     }
 
-    public boolean nextState() {
+    public void nextState() {
         switch (state) {
             case NEW:
                 state = IN_PROGRESS;
-                return true;
+                break;
             case IN_PROGRESS:
                 state = DONE;
-                return true;
+                break;
             default:
             	state = NEW;
-                return true;
+                break;
         }
     }
 
@@ -88,5 +89,14 @@ public final class Task {
                 Objects.equals(state, other.state) &&
                 Objects.equals(deadline, other.deadline);
 
+    }
+
+    public boolean isPriority() {
+        return priority;
+    }
+
+    public Task setPriority(boolean priority) {
+        this.priority = priority;
+        return this;
     }
 }

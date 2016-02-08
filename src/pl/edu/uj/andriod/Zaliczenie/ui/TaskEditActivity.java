@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.*;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.model.TaskState;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
@@ -32,6 +29,7 @@ public class TaskEditActivity extends Activity {
     private final Calendar calendar = Calendar.getInstance();
     private Long taskId = null;
     private EditType editType;
+    private CheckBox priority;
 
     private enum EditType {
         EDIT, CREATE
@@ -60,6 +58,7 @@ public class TaskEditActivity extends Activity {
                 deadline = calendar.getTime();
             }
         });
+        priority = getView(this, editPriority, CheckBox.class);
     }
 
     private void fillInData() {
@@ -82,6 +81,7 @@ public class TaskEditActivity extends Activity {
             deadline = task.getDeadline();
             deadlineField.setDate(deadline.getTime());
         }
+        priority.setChecked(task.isPriority());
     }
 
     private void initSpinner() {
@@ -106,7 +106,8 @@ public class TaskEditActivity extends Activity {
         return new Task(text(titleField), text(descriptionField))
                 .setId(taskId)
                 .setState((TaskState) stateField.getSelectedItem())
-                .setDeadline(deadline);
+                .setDeadline(deadline)
+                .setPriority(priority.isChecked());
     }
 
     private String text(EditText field) {
