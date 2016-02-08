@@ -5,14 +5,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 
-import java.text.DateFormat;
 import java.util.List;
 
+import static pl.edu.uj.andriod.Zaliczenie.Util.dateFormat;
+
 public final class TaskDAO {
-    private static final String TABLE = "tasks";
     private final TaskQueryHelper taskQueryHelper;
     private final SQLiteOpenHelper helper;
-    private final DateFormat dateFormat = DateFormat.getDateInstance();
 
     public TaskDAO(Context context) {
         helper = new TaskSqlHelper(context);
@@ -35,14 +34,20 @@ public final class TaskDAO {
     public TaskDAO addTask(Task task) {
         final ContentValues values = contentValues(task);
         values.put("id", (String) null);
-        helper.getWritableDatabase().insert(TABLE, null, values);
+        helper.getWritableDatabase().insert(Contract.TABLE, null, values);
         return this;
     }
 
     public TaskDAO updateTask(Task task) {
         if (task.getId() == null) throw new IllegalStateException(String.format("%s missing id, cannot update", task));
-        helper.getWritableDatabase().update(TABLE, contentValues(task), "id = " + task.getId(), null);
+        helper.getWritableDatabase().update(Contract.TABLE, contentValues(task), "id = " + task.getId(), null);
         return this;
+    }
+    
+    public TaskDAO deleteTask(Task task){
+    	if (task.getId() == null) throw new IllegalStateException(String.format("%s missing id, cannot remove", task));
+    	helper.getWritableDatabase().delete(Contract.TABLE, "id = " + task.getId(), null);
+    	return this;
     }
 
     private ContentValues contentValues(Task task) {
@@ -56,6 +61,6 @@ public final class TaskDAO {
     }
 
     public void clearTable() {
-        helper.getWritableDatabase().delete(TABLE, null, null);
+        helper.getWritableDatabase().delete(Contract.TABLE, null, null);
     }
 }

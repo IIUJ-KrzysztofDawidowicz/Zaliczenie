@@ -4,31 +4,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static android.R.layout.simple_list_item_1;
 import static pl.edu.uj.andriod.Zaliczenie.R.id.taksListView;
 import static pl.edu.uj.andriod.Zaliczenie.R.layout.main;
 
 public final class MainActivity extends Activity {
 
     private static final Task example = new Task("Pierwszy", "").setDeadline(new Date());
-
-    /**
-     * Called when the activity is first created.
-     */
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(main);
-        seedTable();
     }
 
     @Override
@@ -37,8 +30,16 @@ public final class MainActivity extends Activity {
         loadTasks();
     }
     
+    // Event listener
     public void newTask(View view){
-        startActivity(new Intent(this, NewItemActivity.class));
+        final Intent intent = new Intent(this, TaskEditActivity.class);
+        intent.putExtra(TaskEditActivity.IS_NEW_TASK, true);
+        startActivity(intent);
+    }
+
+    // Event listener
+    public void launchDoneTasksList(View v){
+        startActivity(new Intent(this, DoneTasksActivity.class));
     }
 
     private void seedTable() {
@@ -53,10 +54,4 @@ public final class MainActivity extends Activity {
         view.setAdapter(new TaskListAdapter(getBaseContext(), tasks));
     }
 
-    private List<String> stringRepresentation(List<Task> tasks) {
-        List<String> result = new ArrayList<>(tasks.size());
-        for (Task task : tasks)
-            result.add(task.toString());
-        return result;
-    }
 }

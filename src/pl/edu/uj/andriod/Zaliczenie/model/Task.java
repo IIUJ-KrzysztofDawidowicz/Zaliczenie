@@ -1,6 +1,5 @@
 package pl.edu.uj.andriod.Zaliczenie.model;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -29,7 +28,7 @@ public final class Task {
     }
 
     public Task setId(Long id) {
-        this.id = requireNonNull(id);
+        this.id = id;
         return this;
     }
 
@@ -73,7 +72,8 @@ public final class Task {
                 state = DONE;
                 return true;
             default:
-                return false;
+            	state = NEW;
+                return true;
         }
     }
 
@@ -88,11 +88,5 @@ public final class Task {
                 Objects.equals(state, other.state) &&
                 Objects.equals(deadline, other.deadline);
 
-    }
-
-    public Calendar getDeadlineCalendar() {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(deadline);
-        return calendar;
     }
 }

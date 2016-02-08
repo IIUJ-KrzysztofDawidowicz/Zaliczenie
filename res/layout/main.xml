@@ -6,13 +6,28 @@
               android:layout_height="fill_parent"
               tools:context=".MainActivity">
 
-    <Button
-            android:layout_width="wrap_content"
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nowy"
-            android:id="@+id/newItemButton"
-            android:layout_gravity="center_horizontal"
-            android:onClick="newTask"/>
+            android:weightSum="1">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nowy"
+                android:id="@+id/newItemButton"
+                android:onClick="newTask"
+                android:layout_weight="0.50"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zrobione"
+                android:id="@+id/buttonLaunchDoneTasks"
+                android:layout_weight="0.5"
+                android:onClick="launchDoneTasksList"/>
+    </LinearLayout>
 
     <ListView
             android:layout_width="match_parent"
