@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import pl.edu.uj.andriod.Zaliczenie.Util;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.model.TaskState;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
@@ -30,12 +31,13 @@ final class TaskView {
 
     TaskView(View view) {
         view.setTag(this);
-        title = getView(view, taskTitle, TextView.class);
-        description = getView(view, taskDescription, TextView.class);
-        deadline = getView(view, taskDeadline, TextView.class);
-        edit = getView(view, taskEditButton, Button.class);
-        status = getView(view, statusButton, Button.class);
+        title = Util.getView(view, taskTitle, TextView.class);
+        description = Util.getView(view, taskDescription, TextView.class);
+        deadline = Util.getView(view, taskDeadline, TextView.class);
+        edit = Util.getView(view, taskEditButton, Button.class);
+        status = Util.getView(view, statusButton, Button.class);
         priority = getView(view, priorityButton, ToggleButton.class);
+        
 
         setOnClickListeners();
     }

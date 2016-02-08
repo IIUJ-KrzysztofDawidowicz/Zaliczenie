@@ -11,11 +11,11 @@
             state text not null check(state in (\'new\', \'in progress\', \'done\'))
         )
     </string>
-    
+
     <string name="get_priority_count">
         select count(*) from tasks
         where priority = 1 and state != \'done\'
     </string>
-    
+
     <string name="preferences">Tasks.preferences</string>
 </resources>
