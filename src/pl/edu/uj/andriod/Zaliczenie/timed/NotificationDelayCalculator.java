@@ -1,16 +1,13 @@
 package pl.edu.uj.andriod.Zaliczenie.timed;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.Calendar;
 
 import static java.util.Calendar.*;
-import static pl.edu.uj.andriod.Zaliczenie.Preferences.getPreferences;
+import static pl.edu.uj.andriod.Zaliczenie.Preferences.getNotificationTime;
 
 public class NotificationDelayCalculator {
-    private static final String HOUR = "NotificationHour";
-    private static final String MINUTES = "NotificationMinutes";
     private static final int MILIS_PER_MINUTE = 60 * 1000;
 
     static long notificationDelay(Context context) {
@@ -18,11 +15,10 @@ public class NotificationDelayCalculator {
     }
 
     private static Calendar nextNotificationTime(Context context) {
-        SharedPreferences sharedPreferences = getPreferences(context);
-        int hour = sharedPreferences.getInt(HOUR, 8);
-        int minutes = sharedPreferences.getInt(MINUTES, 0);
-        return asCalendar(hour, minutes);
+        String[] hoursMinutes = getNotificationTime(context).split(":");
+        return asCalendar(Integer.parseInt(hoursMinutes[0]), Integer.parseInt(hoursMinutes[1]));
     }
+
 
     private static Calendar asCalendar(int hour, int minutes) {
         final Calendar calendar = getInstance();

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+            android:inputType="number"
+            android:key="@string/min_priority_tasks"
+            android:title="Minimum zadań priorytetowych"/>
+    <EditTextPreference
+            android:inputType="number"
+            android:key="@string/hours_between_notifications"
+            android:title="Liczba godzin między notyfikacjami"/>
+    <EditTextPreference
+            android:inputType="time"
+            android:key="@string/notification_time"
+            android:title="Czas dziennej notyfikacji"/>
+</PreferenceScreen>

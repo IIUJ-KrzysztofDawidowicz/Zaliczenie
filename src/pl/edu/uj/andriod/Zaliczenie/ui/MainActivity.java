@@ -41,6 +41,10 @@ public final class MainActivity extends Activity {
     public void launchDoneTasksList(View v){
         startActivity(new Intent(this, DoneTasksActivity.class));
     }
+    
+    public void launchSettings(View v){
+        startActivity(new Intent(this, AppPreferences.class));
+    }
 
     private void seedTable() {
         TaskDAO dao = new TaskDAO(getBaseContext());

@@ -2,19 +2,22 @@ package pl.edu.uj.andriod.Zaliczenie;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import static android.content.Context.MODE_PRIVATE;
-import static pl.edu.uj.andriod.Zaliczenie.R.string.preferences;
+import static pl.edu.uj.andriod.Zaliczenie.R.string.min_priority_tasks;
+import static pl.edu.uj.andriod.Zaliczenie.R.string.notification_time;
 
 public class Preferences {
 
-    private static final String MIN_PRIORITY_TASKS = "MinPriorityTasks";
-
     public static SharedPreferences getPreferences(Context context) {
-        return context.getSharedPreferences(context.getString(preferences), MODE_PRIVATE);
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+    
+    public static int minPriorityTasks(Context context) {
+        return getPreferences(context).getInt(context.getString(min_priority_tasks), 0);
     }
 
-    public static int minPriorityTasks(Context context) {
-        return getPreferences(context).getInt(MIN_PRIORITY_TASKS, 0);
+    public static String getNotificationTime(Context context) {
+        return getPreferences(context).getString(context.getString(notification_time), null);
     }
 }

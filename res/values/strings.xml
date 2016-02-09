@@ -17,5 +17,7 @@
         where priority = 1 and state != \'done\'
     </string>
 
-    <string name="preferences">Tasks.preferences</string>
+    <string name="min_priority_tasks">MinPriorityTasks</string>
+    <string name="hours_between_notifications">hours_between_notifications</string>
+    <string name="notification_time">NotificationTime</string>
 </resources>
