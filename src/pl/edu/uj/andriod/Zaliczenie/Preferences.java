@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import static pl.edu.uj.andriod.Zaliczenie.R.string.min_priority_tasks;
-import static pl.edu.uj.andriod.Zaliczenie.R.string.notification_time;
+import static pl.edu.uj.andriod.Zaliczenie.R.string.*;
 
 public class Preferences {
 
@@ -19,5 +18,9 @@ public class Preferences {
 
     public static String getNotificationTime(Context context) {
         return getPreferences(context).getString(context.getString(notification_time), null);
+    }
+    
+    public static long getHoursBetweenNotifications(Context context){
+        return getPreferences(context).getLong(context.getString(hours_between_notifications), -1);
     }
 }

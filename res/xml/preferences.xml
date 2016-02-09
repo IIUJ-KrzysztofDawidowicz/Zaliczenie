@@ -9,6 +9,7 @@
             android:key="@string/hours_between_notifications"
             android:title="Liczba godzin między notyfikacjami"/>
     <EditTextPreference
+            android:id="@+id/notification_time" 
             android:inputType="time"
             android:key="@string/notification_time"
             android:title="Czas dziennej notyfikacji"/>

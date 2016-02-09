@@ -73,13 +73,14 @@ public final class Task {
                 state = DONE;
                 break;
             default:
-            	state = NEW;
+                state = NEW;
                 break;
         }
     }
 
     @Override
     public boolean equals(Object o) {
+        if (o == null) return false;
         if (o == this) return true;
         if (getClass() != o.getClass()) return false;
         Task other = (Task) o;
@@ -87,8 +88,14 @@ public final class Task {
                 Objects.equals(title, other.title) &&
                 Objects.equals(description, other.description) &&
                 Objects.equals(state, other.state) &&
-                Objects.equals(deadline, other.deadline);
+                Objects.equals(deadline, other.deadline) &&
+                priority == other.priority;
 
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, state, deadline, priority);
     }
 
     public boolean isPriority() {

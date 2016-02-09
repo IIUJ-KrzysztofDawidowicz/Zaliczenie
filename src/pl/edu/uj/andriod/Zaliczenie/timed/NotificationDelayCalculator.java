@@ -10,11 +10,11 @@ import static pl.edu.uj.andriod.Zaliczenie.Preferences.getNotificationTime;
 public class NotificationDelayCalculator {
     private static final int MILIS_PER_MINUTE = 60 * 1000;
 
-    static long notificationDelay(Context context) {
-        return timeLeftInMinutes(nextNotificationTime(context));
+    static long minutesTillNextDailyNotification(Context context) {
+        return timeLeftInMinutes(nextDailyNotificationTime(context));
     }
 
-    private static Calendar nextNotificationTime(Context context) {
+    private static Calendar nextDailyNotificationTime(Context context) {
         String[] hoursMinutes = getNotificationTime(context).split(":");
         return asCalendar(Integer.parseInt(hoursMinutes[0]), Integer.parseInt(hoursMinutes[1]));
     }

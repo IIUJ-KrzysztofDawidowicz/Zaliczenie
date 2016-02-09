@@ -14,11 +14,9 @@ import static pl.edu.uj.andriod.Zaliczenie.R.layout.task;
 
 final class TaskListAdapter extends ArrayAdapter<Task> {
     private final LayoutInflater inflater;
-    List<Task> tasks;
 
     public TaskListAdapter(Context context, List<Task> tasks) {
         super(context, task, tasks);
-        this.tasks = tasks;
         inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
     }
 

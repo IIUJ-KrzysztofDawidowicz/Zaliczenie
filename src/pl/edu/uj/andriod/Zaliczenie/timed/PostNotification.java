@@ -8,18 +8,31 @@ import pl.edu.uj.andriod.Zaliczenie.Preferences;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
 
 import static pl.edu.uj.andriod.Zaliczenie.R.drawable.ic_launcher;
+import static pl.edu.uj.andriod.Zaliczenie.timed.NotificationScheduler.cancelHourlyNotification;
+import static pl.edu.uj.andriod.Zaliczenie.timed.NotificationScheduler.scheduleHourlyNotification;
 
 class PostNotification implements Runnable {
     private final Context context;
+    private final RepeatPeriod repeatPeriod;
 
-    public PostNotification(Context context) {
+    public PostNotification(Context context, RepeatPeriod repeatPeriod) {
+        this.repeatPeriod = repeatPeriod;
         this.context = context.getApplicationContext();
+    }
+    
+    enum RepeatPeriod{
+        DAILY, HOURLY
     }
 
     @Override
     public void run() {
-        if (needToMarkMorePriorityTasks(context))
+        if (needToMarkMorePriorityTasks(context)) {
             context.getSystemService(NotificationManager.class).notify(0, notification());
+            if (repeatPeriod == RepeatPeriod.DAILY)
+                scheduleHourlyNotification(context);
+        } else {
+            cancelHourlyNotification();
+        }
     }
 
     private static boolean needToMarkMorePriorityTasks(Context context) {
