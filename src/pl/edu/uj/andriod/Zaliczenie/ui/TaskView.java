@@ -47,7 +47,7 @@ final class TaskView {
         title.setText(task.getTitle());
         description.setText(task.getDescription());
         if (task.getDeadline() != null) {
-            deadline.setText(dateFormat.format(task.getDeadline()));
+            deadline.setText(dateFormat().format(task.getDeadline()));
         }
         status.setText(task.getState().toString());
         if (task.getState() == TaskState.DONE) status.setEnabled(false);

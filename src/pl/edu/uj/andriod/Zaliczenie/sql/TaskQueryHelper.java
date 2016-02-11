@@ -68,6 +68,6 @@ final class TaskQueryHelper {
 
     private Date deadline(Cursor cursor) throws ParseException {
         final String date = getString(cursor, DEADLINE);
-        return date == null ? null : dateFormat.parse(date);
+        return date == null ? null : dateFormat().parse(date);
     }
 }

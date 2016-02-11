@@ -40,6 +40,10 @@ public final class TaskDAO {
     public List<Task> getNotDoneTasks() {
         return taskQueryHelper.getTasks("state != 'done'");
     }
+    
+    public List<Task> getAllTasks(){
+        return taskQueryHelper.getTasks(null);
+    }
 
     public TaskDAO addTask(Task task) {
         final ContentValues values = contentValues(task);
@@ -65,7 +69,7 @@ public final class TaskDAO {
         values.put(TITLE.sqlName, task.getTitle());
         values.put(DESCRIPTION.sqlName, task.getDescription());
         if (task.getDeadline() != null)
-            values.put(DEADLINE.sqlName, dateFormat.format(task.getDeadline()));
+            values.put(DEADLINE.sqlName, dateFormat().format(task.getDeadline()));
         values.put(STATE.sqlName, task.getState().getSqlName());
         values.put(PRIORITY.sqlName, task.isPriority());
         return values;
