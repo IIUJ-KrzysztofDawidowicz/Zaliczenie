@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.ListView;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
+import pl.edu.uj.andriod.Zaliczenie.timed.PostNotification;
 
 import java.util.Date;
 import java.util.List;
 
 import static pl.edu.uj.andriod.Zaliczenie.R.id.taksListView;
 import static pl.edu.uj.andriod.Zaliczenie.R.layout.main;
+import static pl.edu.uj.andriod.Zaliczenie.timed.PostNotification.RepeatPeriod.DAILY;
 
 public final class MainActivity extends Activity {
 
@@ -28,6 +30,7 @@ public final class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         loadTasks();
+        new PostNotification(this, DAILY).run();
     }
     
     // Event listener

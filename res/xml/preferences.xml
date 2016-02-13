@@ -2,10 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference
             android:inputType="number"
+            android:numeric="integer"
+            android:defaultValue="0"
             android:key="@string/min_priority_tasks"
             android:title="Minimum zadań priorytetowych"/>
     <EditTextPreference
             android:inputType="number"
+            android:numeric="integer"
             android:key="@string/hours_between_notifications"
             android:title="Liczba godzin między notyfikacjami"/>
     <EditTextPreference

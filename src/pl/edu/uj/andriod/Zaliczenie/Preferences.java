@@ -13,7 +13,7 @@ public class Preferences {
     }
     
     public static int minPriorityTasks(Context context) {
-        return getPreferences(context).getInt(context.getString(min_priority_tasks), 0);
+        return Integer.parseInt(getPreferences(context).getString(context.getString(min_priority_tasks), "0"));
     }
 
     public static String getNotificationTime(Context context) {
@@ -21,6 +21,6 @@ public class Preferences {
     }
     
     public static long getHoursBetweenNotifications(Context context){
-        return getPreferences(context).getLong(context.getString(hours_between_notifications), -1);
+        return Long.parseLong(getPreferences(context).getString(context.getString(hours_between_notifications), "-1"));
     }
 }
