@@ -40,8 +40,8 @@ public final class TaskDAO {
     public List<Task> getNotDoneTasks() {
         return taskQueryHelper.getTasks("state != 'done'");
     }
-    
-    public List<Task> getAllTasks(){
+
+    public List<Task> getAllTasks() {
         return taskQueryHelper.getTasks(null);
     }
 
@@ -57,11 +57,11 @@ public final class TaskDAO {
         helper.getWritableDatabase().update(TABLE_NAME, contentValues(task), "id = " + task.getId(), null);
         return this;
     }
-    
-    public TaskDAO deleteTask(Long taskId){
-    	if (taskId == null) throw new IllegalStateException("missing id, cannot remove");
-    	helper.getWritableDatabase().delete(TABLE_NAME, "id = " + taskId, null);
-    	return this;
+
+    public TaskDAO deleteTask(Long taskId) {
+        if (taskId == null) throw new IllegalStateException("missing id, cannot remove");
+        helper.getWritableDatabase().delete(TABLE_NAME, "id = " + taskId, null);
+        return this;
     }
 
     private ContentValues contentValues(Task task) {
@@ -77,5 +77,10 @@ public final class TaskDAO {
 
     public void clearTable() {
         helper.getWritableDatabase().delete(TABLE_NAME, null, null);
+    }
+
+    public void replaceDatabase(List<Task> tasks) {
+        clearTable();
+        for (Task task : tasks) addTask(task);
     }
 }

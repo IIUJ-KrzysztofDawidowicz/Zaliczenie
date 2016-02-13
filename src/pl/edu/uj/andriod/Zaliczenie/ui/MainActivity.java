@@ -19,7 +19,7 @@ import static pl.edu.uj.andriod.Zaliczenie.timed.PostNotification.RepeatPeriod.D
 public final class MainActivity extends Activity {
 
     private static final Task example = new Task("Pierwszy", "").setDeadline(new Date());
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,21 +32,25 @@ public final class MainActivity extends Activity {
         loadTasks();
         new PostNotification(this, DAILY).run();
     }
-    
+
     // Event listener
-    public void newTask(View view){
+    public void newTask(View view) {
         final Intent intent = new Intent(this, TaskEditActivity.class);
         intent.putExtra(TaskEditActivity.IS_NEW_TASK, true);
         startActivity(intent);
     }
 
     // Event listener
-    public void launchDoneTasksList(View v){
+    public void launchDoneTasksList(View v) {
         startActivity(new Intent(this, DoneTasksActivity.class));
     }
-    
-    public void launchSettings(View v){
+
+    public void launchSettings(View v) {
         startActivity(new Intent(this, AppPreferences.class));
+    }
+
+    public void launchIOAcitivity(View v) {
+        startActivity(new Intent(this, ImportExportActivity.class));
     }
 
     private void seedTable() {

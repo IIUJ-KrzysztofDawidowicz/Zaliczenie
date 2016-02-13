@@ -2,6 +2,7 @@ package pl.edu.uj.andriod.Zaliczenie.file;
 
 import android.content.Context;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
+import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -19,6 +20,8 @@ public class DatabaseReader {
 
         List<Task> tasks = readFile(file);
 
+        new TaskDAO(context).replaceDatabase(tasks);
+        
         return SUCCESS;
     }
 

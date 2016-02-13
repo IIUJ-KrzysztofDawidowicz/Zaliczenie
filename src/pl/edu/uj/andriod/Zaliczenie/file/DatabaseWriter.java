@@ -5,7 +5,7 @@ import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import static pl.edu.uj.andriod.Zaliczenie.file.DatabaseWriter.WriteStatus.SUCCE
 public class DatabaseWriter {
 
     public static WriteStatus writeDatabaseToFile(Context context, String filename) {
-        File file = new File(getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), filename);
+        File file = new File(getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getAbsoluteFile(), filename);
         if (!MEDIA_MOUNTED.equals(getExternalStorageState(file)))
             return NO_STORAGE_MOUNTED;
 
@@ -28,13 +28,17 @@ public class DatabaseWriter {
     }
 
     private static void writeToFile(List<Task> tasks, File file) {
-        try (PrintWriter writer = new PrintWriter(file)) {
-            for (Task task : tasks) {
-                writer.print(CSVTaskSerializer.serialize(task));
-            }
-        } catch (FileNotFoundException e) {
+        try {
+            file.createNewFile(); // just returns false if file already exists
+            try (PrintWriter writer = new PrintWriter(file)) {
+                for (Task task : tasks) {
+                    writer.print(CSVTaskSerializer.serialize(task));
+                }
+            } 
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public enum WriteStatus {

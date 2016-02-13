@@ -3,11 +3,11 @@ package pl.edu.uj.andriod.Zaliczenie.file;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.model.TaskState;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
 import static java.lang.Boolean.parseBoolean;
-import static pl.edu.uj.andriod.Zaliczenie.Util.dateFormat;
 
 
 public class CSVTaskSerializer {
@@ -16,9 +16,18 @@ public class CSVTaskSerializer {
                 task.getId(),
                 task.getTitle(),
                 task.getDescription(),
-                task.getState(),
+                task.getState().getSqlName(),
                 task.isPriority(),
-                dateFormat().format(task.getDeadline()));
+                formatDate(task.getDeadline()));
+    }
+
+    private static String formatDate(Date date) {
+        if (date == null) return null;
+        return dateFormat().format(date);
+    }
+
+    private static DateFormat dateFormat() {
+        return DateFormat.getDateInstance(DateFormat.SHORT);
     }
 
     static Task parse(String line) {

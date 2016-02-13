@@ -18,15 +18,24 @@
                 android:text="Nowy"
                 android:id="@+id/newItemButton"
                 android:onClick="newTask"
-                android:layout_weight="0.33"/>
+                android:layout_weight="0.25"/>
 
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Zrobione"
                 android:id="@+id/buttonLaunchDoneTasks"
-                android:layout_weight="0.33"
+                android:layout_weight="0.25"
                 android:onClick="launchDoneTasksList"/>
+
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IO"
+                android:id="@+id/importExportButton"
+                android:layout_weight="0.25"
+                android:onClick="launchIOAcitivity"/>
 
         <Button
                 style="?android:attr/buttonStyleSmall"
@@ -34,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Opcje"
                 android:id="@+id/optionsButton"
-                android:layout_weight="0.33"
+                android:layout_weight="0.25"
                 android:onClick="launchSettings"/>
     </LinearLayout>
 
