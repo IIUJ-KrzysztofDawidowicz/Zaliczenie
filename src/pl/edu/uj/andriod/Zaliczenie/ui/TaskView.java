@@ -26,10 +26,12 @@ final class TaskView {
     private final Button edit;
     private final Button status;
     private final ToggleButton priority;
+    private final Context context;
 
     private Task task;
 
-    TaskView(View view) {
+    TaskView(View view, Context context) {
+        this.context = context;
         view.setTag(this);
         title = Util.getView(view, taskTitle, TextView.class);
         description = Util.getView(view, taskDescription, TextView.class);
@@ -95,6 +97,7 @@ final class TaskView {
                 buttonView.setButtonDrawable(btn_star_big_off);
                 task.setPriority(false);
             }
+            new TaskDAO(context).updateTask(task);
         }
     }
 }

@@ -29,16 +29,16 @@ public class DatabaseWriter {
 
     private static void writeToFile(List<Task> tasks, File file) {
         try {
-            file.createNewFile(); // just returns false if file already exists
+            file.delete();
+            file.createNewFile();
             try (PrintWriter writer = new PrintWriter(file)) {
                 for (Task task : tasks) {
-                    writer.print(CSVTaskSerializer.serialize(task));
+                    writer.println(CSVTaskSerializer.serialize(task));
                 }
             } 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public enum WriteStatus {

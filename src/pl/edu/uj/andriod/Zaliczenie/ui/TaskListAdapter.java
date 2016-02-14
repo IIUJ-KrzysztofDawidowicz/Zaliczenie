@@ -25,7 +25,7 @@ final class TaskListAdapter extends ArrayAdapter<Task> {
         if (convertView == null) {
             convertView = inflater.inflate(task, null);
         }
-        TaskView taskView = new TaskView(convertView);
+        TaskView taskView = new TaskView(convertView, getContext());
         taskView.fillInData(getItem(position));
         return convertView;
     }
