@@ -25,14 +25,9 @@ final class TaskQueryHelper {
     }
 
     public List<Task> getTasks(String selection) {
-        Cursor cursor = null;
-        try {
-            cursor = query(selection);
+        ;
+        try(Cursor cursor = query(selection)) {
             return convertTasks(cursor);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
         }
     }
 

@@ -31,8 +31,6 @@ public class DatabaseReader {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 tasks.add(CSVTaskSerializer.parse(line));
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

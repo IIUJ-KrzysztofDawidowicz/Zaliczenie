@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import pl.edu.uj.andriod.Zaliczenie.Util;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 import pl.edu.uj.andriod.Zaliczenie.model.TaskState;
 import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
@@ -16,7 +15,6 @@ import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
 import static pl.edu.uj.andriod.Zaliczenie.R.id.*;
 import static pl.edu.uj.andriod.Zaliczenie.Util.dateFormat;
-import static pl.edu.uj.andriod.Zaliczenie.Util.getView;
 import static pl.edu.uj.andriod.Zaliczenie.ui.TaskEditActivity.TASK_ID;
 
 final class TaskView {
@@ -31,14 +29,15 @@ final class TaskView {
     private Task task;
 
     TaskView(View view, Context context) {
-        this.context = context;
         view.setTag(this);
-        title = Util.getView(view, taskTitle, TextView.class);
-        description = Util.getView(view, taskDescription, TextView.class);
-        deadline = Util.getView(view, taskDeadline, TextView.class);
-        edit = Util.getView(view, taskEditButton, Button.class);
-        status = Util.getView(view, statusButton, Button.class);
-        priority = getView(view, priorityButton, ToggleButton.class);
+
+        this.context = context;
+        title = (TextView) view.findViewById(taskTitle);
+        description = (TextView) view.findViewById(taskDescription);
+        deadline = (TextView) view.findViewById(taskDeadline);
+        edit = (Button) view.findViewById(taskEditButton);
+        status = (Button) view.findViewById(statusButton);
+        priority = (ToggleButton) view.findViewById(priorityButton);
         
 
         setOnClickListeners();

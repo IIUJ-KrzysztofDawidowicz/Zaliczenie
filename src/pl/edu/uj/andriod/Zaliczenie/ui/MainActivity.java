@@ -18,19 +18,19 @@ import static pl.edu.uj.andriod.Zaliczenie.timed.PostNotification.RepeatPeriod.D
 
 public final class MainActivity extends Activity {
 
-    private static final Task example = new Task("Pierwszy", "").setDeadline(new Date());
+    private TaskDAO taskDAO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(main);
+        taskDAO = new TaskDAO(getBaseContext());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         loadTasks();
-        new PostNotification(this, DAILY).run();
     }
 
     // Event listener
@@ -53,14 +53,8 @@ public final class MainActivity extends Activity {
         startActivity(new Intent(this, ImportExportActivity.class));
     }
 
-    private void seedTable() {
-        TaskDAO dao = new TaskDAO(getBaseContext());
-        dao.clearTable();
-        dao.addTask(example);
-    }
-
     private void loadTasks() {
-        List<Task> tasks = new TaskDAO(getBaseContext()).getNotDoneTasks();
+        List<Task> tasks = taskDAO.getNotDoneTasks();
         ListView view = (ListView) findViewById(taksListView);
         view.setAdapter(new TaskListAdapter(getBaseContext(), tasks));
     }

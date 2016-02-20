@@ -12,17 +12,21 @@ import pl.edu.uj.andriod.Zaliczenie.sql.TaskDAO;
 import pl.edu.uj.andriod.Zaliczenie.ui.MainActivity;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static pl.edu.uj.andriod.Zaliczenie.Preferences.*;
 import static pl.edu.uj.andriod.Zaliczenie.R.drawable.ic_launcher;
 import static pl.edu.uj.andriod.Zaliczenie.timed.NotificationScheduler.cancelHourlyNotification;
 import static pl.edu.uj.andriod.Zaliczenie.timed.NotificationScheduler.scheduleHourlyNotification;
+import static pl.edu.uj.andriod.Zaliczenie.timed.PostNotification.RepeatPeriod.*;
 
 public class PostNotification implements Runnable {
+    private final TaskDAO taskDAO;
     private final Context context;
     private final RepeatPeriod repeatPeriod;
 
     public PostNotification(Context context, RepeatPeriod repeatPeriod) {
         this.repeatPeriod = repeatPeriod;
         this.context = context.getApplicationContext();
+        taskDAO = new TaskDAO(context);
     }
 
     public enum RepeatPeriod {
@@ -34,27 +38,30 @@ public class PostNotification implements Runnable {
         Log.i("PostNotification", "Running");
         if (needToMarkMorePriorityTasks(context)) {
             Log.i("PostNotification", "Posting notification");
-            context.getSystemService(NotificationManager.class).notify(0, notification());
-            if (repeatPeriod == RepeatPeriod.DAILY)
+            postTheNotification();
+            if (repeatPeriod == DAILY)
                 scheduleHourlyNotification(context);
         } else {
-
             Log.i("PostNotification", "No more tasks needed");
             cancelHourlyNotification();
         }
     }
 
-    private static boolean needToMarkMorePriorityTasks(Context context) {
-        return priorityTaskCount(context) < Preferences.minPriorityTasks(context);
+    private void postTheNotification() {
+        context.getSystemService(NotificationManager.class).notify(0, createNotification());
     }
 
-    private static long priorityTaskCount(Context context) {
-        final long priorityTaskCount = new TaskDAO(context).getPriorityTaskCount();
+    private boolean needToMarkMorePriorityTasks(Context context) {
+        return priorityTaskCount() < minPriorityTasks(context);
+    }
+
+    private long priorityTaskCount() {
+        final long priorityTaskCount = taskDAO.getPriorityTaskCount();
         Log.i("NotificationScheduler", "Priority task count: " + priorityTaskCount);
         return priorityTaskCount;
     }
 
-    private Notification notification() {
+    private Notification createNotification() {
         return new Notification.Builder(context)
                 .setSmallIcon(ic_launcher)
                 .setContentTitle("Zadania")

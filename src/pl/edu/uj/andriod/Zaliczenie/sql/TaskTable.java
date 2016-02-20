@@ -13,5 +13,4 @@ public enum TaskTable {
     TaskTable(String name) {
         this.sqlName = name;
     }
-    
 }

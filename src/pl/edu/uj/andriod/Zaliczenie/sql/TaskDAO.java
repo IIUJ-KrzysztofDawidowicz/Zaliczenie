@@ -2,6 +2,7 @@ package pl.edu.uj.andriod.Zaliczenie.sql;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import pl.edu.uj.andriod.Zaliczenie.model.Task;
 
@@ -28,9 +29,11 @@ public final class TaskDAO {
     }
 
     public long getPriorityTaskCount() {
-        return helper.getReadableDatabase()
-                .compileStatement(context.getString(get_priority_count))
-                .simpleQueryForLong();
+        try (SQLiteDatabase database = helper.getReadableDatabase()) {
+            return database
+                    .compileStatement(context.getString(get_priority_count))
+                    .simpleQueryForLong();
+        }
     }
 
     public List<Task> getDoneTasks() {
@@ -48,19 +51,26 @@ public final class TaskDAO {
     public TaskDAO addTask(Task task) {
         final ContentValues values = contentValues(task);
         values.put(ID.sqlName, (String) null);
-        helper.getWritableDatabase().insert(TABLE_NAME, null, values);
+        try(SQLiteDatabase database = helper.getWritableDatabase()){
+            database.insert(TABLE_NAME, null, values);
+        }
+
         return this;
     }
 
     public TaskDAO updateTask(Task task) {
         if (task.getId() == null) throw new IllegalStateException(String.format("%s missing id, cannot update", task));
-        helper.getWritableDatabase().update(TABLE_NAME, contentValues(task), "id = " + task.getId(), null);
+        try(SQLiteDatabase database = helper.getWritableDatabase()) {
+            database.update(TABLE_NAME, contentValues(task), "id = " + task.getId(), null);
+        }
         return this;
     }
 
     public TaskDAO deleteTask(Long taskId) {
         if (taskId == null) throw new IllegalStateException("missing id, cannot remove");
-        helper.getWritableDatabase().delete(TABLE_NAME, "id = " + taskId, null);
+        try(SQLiteDatabase database = helper.getWritableDatabase()) {
+            database.delete(TABLE_NAME, "id = " + taskId, null);
+        }
         return this;
     }
 
@@ -76,7 +86,9 @@ public final class TaskDAO {
     }
 
     public void clearTable() {
-        helper.getWritableDatabase().delete(TABLE_NAME, null, null);
+        try(SQLiteDatabase database = helper.getWritableDatabase()) {
+            database.delete(TABLE_NAME, null, null);
+        }
     }
 
     public void replaceDatabase(List<Task> tasks) {

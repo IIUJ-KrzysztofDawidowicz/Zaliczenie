@@ -15,7 +15,6 @@ import java.util.Date;
 import static android.R.layout.simple_list_item_1;
 import static pl.edu.uj.andriod.Zaliczenie.R.id.*;
 import static pl.edu.uj.andriod.Zaliczenie.R.layout.task_edit;
-import static pl.edu.uj.andriod.Zaliczenie.Util.getView;
 
 public class TaskEditActivity extends Activity {
     public static final String TASK_ID = "TASK_ID";
@@ -47,10 +46,10 @@ public class TaskEditActivity extends Activity {
 
     private void initFields() {
         taskDAO = new TaskDAO(this);
-        titleField = getView(this, editTaskTitle, EditText.class);
-        descriptionField = getView(this, editTaskDescription, EditText.class);
-        stateField = getView(this, editTaskState, Spinner.class);
-        deadlineField = getView(this, editTaskDeadline, CalendarView.class);
+        titleField = (EditText) findViewById(editTaskTitle);
+        descriptionField = (EditText) findViewById(editTaskDescription);
+        stateField = (Spinner) findViewById(editTaskState);
+        deadlineField = (CalendarView) findViewById(editTaskDeadline);
         deadlineField.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
@@ -58,7 +57,7 @@ public class TaskEditActivity extends Activity {
                 deadline = calendar.getTime();
             }
         });
-        priority = getView(this, editPriority, CheckBox.class);
+        priority = (CheckBox) findViewById(editPriority);
     }
 
     private void fillInData() {
@@ -102,8 +101,9 @@ public class TaskEditActivity extends Activity {
         finish();
     }
 
-    public void onClickDelete(View v){
-        taskDAO.deleteTask(taskId);
+    public void onClickDelete(View v) {
+        if (editType == EditType.EDIT)
+            taskDAO.deleteTask(taskId);
         finish();
     }
 

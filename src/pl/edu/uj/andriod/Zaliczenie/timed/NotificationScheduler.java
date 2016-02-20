@@ -1,6 +1,7 @@
 package pl.edu.uj.andriod.Zaliczenie.timed;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -22,13 +23,16 @@ public class NotificationScheduler {
     }
 
     public static void scheduleDailyNotification(Context context) {
+        Log.d("NotificationScheduler", "Scheduling");
         if (dailyNotification != null) {
+            Log.d("NotificationScheduler", "Canelling previous");
             dailyNotification.cancel(false);
         }
         dailyNotification = doScheduleDailyNotification(context);
     }
 
     private static ScheduledFuture doScheduleDailyNotification(Context context) {
+        Log.d("NotificationScheduler", "Scheduling notifcation");
         return executorService.scheduleAtFixedRate(
                 new PostNotification(context, DAILY),
                 minutesTillNextDailyNotification(context), // first notification delay
